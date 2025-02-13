@@ -3,18 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Click Example</title>
-    <script>
-        function showMessage() {
-            alert("Button clicked! ✅");
+    <title>Bash Script UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
         }
-    </script>
+        h2 {
+            color: #333;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 200px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .btn-1 { background-color: #3498db; color: white; }
+        .btn-2 { background-color: #2ecc71; color: white; }
+        .btn-3 { background-color: #f1c40f; color: black; }
+        .btn-4 { background-color: #e67e22; color: white; }
+        .btn-5 { background-color: #e74c3c; color: white; }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
-    <h2>Click the button below:</h2>
-    <button onclick="showMessage()">Click Me</button>
+    <h2>Execute Bash Scripts</h2>
+
+    <div class="button-container">
+        <button class="btn-1" onclick="runScript('list')">📂 List Files</button>
+        <button class="btn-2" onclick="runScript('createFile')">📄 Create File</button>
+        <button class="btn-3" onclick="runScript('createFolder')">📁 Create Folder</button>
+        <button class="btn-4" onclick="runScript('printName')">📝 Print Name</button>
+        <button class="btn-5" onclick="runScript('changeDir')">📌 Go to Desktop</button>
+    </div>
+
+    <div id="output">⚡ Output will be displayed here...</div>
+
+    <script>
+        function runScript(script) {
+            fetch(`http://localhost:4000/run-script?script=${script}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("✅ Script Triggered:", data); 
+                    document.getElementById("output").innerText = "📢 Output: " + data; 
+                    alert("📢 Output: " + data); 
+                })
+                .catch(error => {
+                    console.error("❌ Error:", error);
+                    document.getElementById("output").innerText = "⚠️ Error: " + error;
+                    alert("⚠️ Error: " + error);
+                });
+        }
+    </script>
 
 </body>
 </html>
+
+
 
